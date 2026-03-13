@@ -7,7 +7,7 @@ async function searchMovies() {
     const buscarterm = buscarInput.value;
     
     if (buscarterm.length > 2) {
-        // Cambiado a HTTPS para que funcione en GitHub Pages
+
         const url = `https://www.omdbapi.com/?apikey=${apiKey}&s=${buscarterm}`;
         try {
             const response = await fetch(url);
@@ -24,7 +24,7 @@ async function searchMovies() {
     } else {
         clearResults();
     }
-} // <--- Esta es la llave que faltaba para cerrar la función
+} 
 
 function displayResults(movies) {
     const resultado = document.getElementById('resultado');
@@ -54,5 +54,6 @@ function clearResults() {
     const resultado = document.getElementById('resultado');
     resultado.innerHTML = '';
 }
+
 
 
