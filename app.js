@@ -7,7 +7,7 @@ async function searchMovies() {
     const buscarterm= buscarInput.value;
     
     if(buscarterm.length >2){
-        const url = `http://www.omdbapi.com/?apikey=${apiKey}&s=${buscarterm}`
+        const url = `https://www.omdbapi.com/?apikey=${apiKey}&s=${buscarterm}`
         try {
             const response = await fetch(url);
             const data = await response.json();
@@ -53,3 +53,4 @@ function clearResults() {
     resultado.innerHTML = '';
 }
 }
+
