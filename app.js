@@ -4,43 +4,45 @@ const apiKey = 'dbb83efb';
 buscarInput.addEventListener('input', searchMovies);
 
 async function searchMovies() {
-    const buscarterm= buscarInput.value;
+    const buscarterm = buscarInput.value;
     
-    if(buscarterm.length >2){
-        const url = `http://www.omdbapi.com/?apikey=${apiKey}&s=${buscarterm}`
+    if (buscarterm.length > 2) {
+        // Cambiado a HTTPS para que funcione en GitHub Pages
+        const url = `https://www.omdbapi.com/?apikey=${apiKey}&s=${buscarterm}`;
         try {
             const response = await fetch(url);
             const data = await response.json();
-            console.log(data.Search);
-            if(data.Search){
+            
+            if (data.Search) {
                 displayResults(data.Search);
-            } else{
+            } else {
                 displayResults([]);
             }
-
-
-
         } catch (error) {
-          console.error('Error al buscar películas:', error);  
+            console.error('Error al buscar películas:', error);  
         }
-    }else{
+    } else {
         clearResults();
-}
+    }
+} 
 
-
-function displayResults(movies){
+function displayResults(movies) {
     const resultado = document.getElementById('resultado');
     resultado.innerHTML = '';
+    
     movies.forEach(movie => {
+        // Validación simple para posters no disponibles
+        const poster = movie.Poster !== "N/A" ? movie.Poster : 'https://via.placeholder.com/300x450?text=Sin+Imagen';
+        
         const col = document.createElement('div');
         col.classList.add('col-lg-3', 'col-md-4', 'col-sm-6', 'mb-3');
         col.innerHTML = `
-            <div class="card h-100 border-info">
-                <img src="${movie.Poster}" class="card-img-top" alt="${movie.Title}" />
+            <div class="card h-100 border-info shadow-sm">
+                <img src="${poster}" class="card-img-top" alt="${movie.Title}" />
                 <div class="card-body">
                     <h5 class="card-title">${movie.Title}</h5>
-                    <p class="card-text">Año: ${movie.Year}</p>
-                    <p class="card-text">Tipo: ${movie.Type}</p>
+                    <p class="card-text mb-1"><strong>Año:</strong> ${movie.Year}</p>
+                    <p class="card-text"><span class="badge bg-info text-dark">${movie.Type}</span></p>
                 </div>
             </div>
         `;
@@ -51,5 +53,4 @@ function displayResults(movies){
 function clearResults() {
     const resultado = document.getElementById('resultado');
     resultado.innerHTML = '';
-}
 }
